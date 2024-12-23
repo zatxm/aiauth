@@ -20,7 +20,7 @@ type csrfTokenResponse struct {
 	Token string `json:"csrfToken"`
 }
 
-func NewWeb(email, password, proxyUrl string) Auth {
+func NewChat(email, password, proxyUrl string) Auth {
 	client := mreq.C().SetUserAgent(userAgent).ImpersonateChrome()
 	if proxyUrl != "" {
 		client.SetProxyURL(proxyUrl)
