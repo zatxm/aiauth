@@ -266,3 +266,29 @@ func (a *platformAuth) Go() (string, error) {
 
 	return b, nil
 }
+
+// 刷新token
+func (a *platformAuth) Refresh(refreshToken string) (string, error) {
+	jsonBody, _ := Json.Marshal(map[string]string{
+		"redirect_uri":  platformRedirectUri,
+		"grant_type":    "refresh_token",
+		"client_id":     clientId,
+		"refresh_token": refreshToken})
+	resp, err := a.client.R().
+		SetHeader("content-type", contentTypeJson).
+		SetBodyBytes(jsonBody).
+		Post(oauthTokenUrl)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return "", errors.New("request refresh token error")
+	}
+	b, err := readAllToString(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return b, nil
+}

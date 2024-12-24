@@ -37,6 +37,7 @@ func (a *chatAuth) Proxy(proxyUrl string) {
 	a.client.SetProxyURL(proxyUrl)
 }
 
+// 登录获取token
 func (a *chatAuth) Go() (string, error) {
 	// 获取csrf token
 	resp, err := a.client.R().
@@ -281,4 +282,9 @@ func (a *chatAuth) Go() (string, error) {
 	}
 
 	return b, nil
+}
+
+// 刷新token
+func (a *chatAuth) Refresh(refreshToken string) (string, error) {
+	return "", errors.New("no supported")
 }
